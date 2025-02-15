@@ -1,0 +1,4 @@
+{
+    "connectionString": "mongodb://localhost/nolatech",
+    "secret": "app-development-22052920"
+}

@@ -1,0 +1,12 @@
+# Ignorar node_modules en frontend y backend
+frontend/node_modules/
+backend/node_modules/
+
+# Archivos de entorno
+frontend/.env
+backend/.env
+
+# Dependencias de compilación y logs
+dist/
+build/
+*.log
