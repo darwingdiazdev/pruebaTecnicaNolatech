@@ -1,0 +1,76 @@
+/* Contenedor principal de la página */
+.page-container {
+  display: flex;
+  min-height: 100vh;
+  background-color: #f7f9fc;
+}
+
+/* Contenedor de contenido principal */
+.content {
+  flex: 1;
+  padding: 40px;
+  margin-left: 260px; /* Para evitar que quede debajo de la sidebar */
+}
+
+/* Título */
+h2 {
+  font-size: 24px;
+  color: #2a4d69;
+  margin-bottom: 20px;
+  text-align: center;
+}
+
+/* Lista de empleados */
+ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+/* Estilos de cada elemento de la lista */
+li {
+  background: white;
+  padding: 15px;
+  margin-bottom: 10px;
+  border-radius: 8px;
+  box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
+  font-size: 16px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  transition: transform 0.2s, box-shadow 0.2s;
+}
+
+/* Efecto hover en la lista */
+li:hover {
+  transform: scale(1.02);
+  box-shadow: 0px 6px 12px rgba(0, 0, 0, 0.15);
+}
+
+/* Mensaje de error */
+p {
+  color: red;
+  font-weight: bold;
+  text-align: center;
+}
+
+/* Mensaje de carga */
+.loading-message {
+  font-size: 18px;
+  color: #2a4d69;
+  text-align: center;
+  font-weight: bold;
+}
+
+/* Responsivo para móviles */
+@media (max-width: 768px) {
+  .content {
+    margin-left: 0;
+    padding: 20px;
+  }
+
+  li {
+    font-size: 14px;
+    padding: 12px;
+  }
+}

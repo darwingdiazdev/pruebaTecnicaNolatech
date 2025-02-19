@@ -1,6 +1,8 @@
 import { useState, useEffect } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import { getEvaluationById, updateEvaluation } from "../../services/evaluation.service";
+import Sidebar from "../sidebar/sidebar"; // Importamos Sidebar
+import "./EvaluationEdit.css";
 
 export const EvaluationEdit = () => {
   const { id } = useParams();
@@ -44,51 +46,60 @@ export const EvaluationEdit = () => {
     try {
       await updateEvaluation(id, formData);
       alert("Evaluación actualizada con éxito");
-      navigate(`/evaluations/${id}`);
+      navigate(`/evaluation-list/${id}`);
     } catch (error) {
       setError("Error al actualizar la evaluación");
     }
   };
 
-  if (loading) return <p>Cargando evaluación...</p>;
-  if (error) return <p style={{ color: "red" }}>{error}</p>;
-
   return (
-    <div>
-      <h2>Editar Evaluación</h2>
-      <form onSubmit={handleSubmit}>
-        <div>
-          <label>Evaluador:</label>
-          <input
-            type="text"
-            name="evaluator"
-            value={formData.evaluator}
-            onChange={handleChange}
-            required
-          />
+    <div className="evaluation-edit-container">
+      <Sidebar /> {/* Sidebar agregada */}
+      
+      <div className="evaluation-content">
+        <div className="evaluation-edit-card">
+          <h2 className="evaluation-title">Editar Evaluación</h2>
+
+          {loading ? (
+            <p className="error-message">Cargando evaluación...</p>
+          ) : error ? (
+            <p className="error-message">{error}</p>
+          ) : (
+            <form className="evaluation-form" onSubmit={handleSubmit}>
+              <label>Evaluador:</label>
+              <input
+                type="text"
+                name="evaluator"
+                value={formData.evaluator}
+                onChange={handleChange}
+                required
+              />
+
+              <label>Puntuación (1-10):</label>
+              <input
+                type="number"
+                name="score"
+                value={formData.score}
+                onChange={handleChange}
+                min="1"
+                max="10"
+                required
+              />
+
+              <label>Comentarios:</label>
+              <textarea
+                name="comments"
+                value={formData.comments}
+                onChange={handleChange}
+              />
+
+              <button className="evaluation-button" type="submit">
+                Actualizar Evaluación
+              </button>
+            </form>
+          )}
         </div>
-        <div>
-          <label>Puntuación (1-10):</label>
-          <input
-            type="number"
-            name="score"
-            value={formData.score}
-            onChange={handleChange}
-            min="1"
-            max="10"
-            required
-          />
-        </div>
-        <div>
-          <label>Comentarios:</label>
-          <textarea
-            name="comments"
-            value={formData.comments}
-            onChange={handleChange}
-          />
-        </div>
-        <button type="submit">Actualizar Evaluación</button>
-      </form>
+      </div>
     </div>
   );
 };

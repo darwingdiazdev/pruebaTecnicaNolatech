@@ -1,0 +1,65 @@
+/* Contenedor principal */
+.evaluations-container {
+  display: flex;
+  min-height: 100vh;
+  background-color: #f7f9fc;
+}
+
+/* Contenedor del contenido principal */
+.evaluations-content {
+  flex: 1;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 20px;
+}
+
+/* Tarjeta de evaluaciones */
+.evaluations-card {
+  width: 100%;
+  max-width: 600px;
+  background: white;
+  padding: 30px;
+  border-radius: 12px;
+  box-shadow: 0px 6px 12px rgba(0, 0, 0, 0.1);
+}
+
+/* Título */
+.evaluations-title {
+  text-align: center;
+  font-size: 24px;
+  font-weight: bold;
+  color: #333;
+  margin-bottom: 20px;
+}
+
+/* Lista de evaluaciones */
+.evaluations-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+/* Elemento de la lista */
+.evaluation-item {
+  padding: 15px;
+  background: #eef2f7;
+  border-radius: 8px;
+  margin-bottom: 10px;
+  cursor: pointer;
+  transition: background 0.3s;
+}
+
+.evaluation-item:hover {
+  background: #dbe2eb;
+}
+
+/* Mensajes */
+.loading-message,
+.error-message,
+.no-evaluations {
+  text-align: center;
+  font-size: 16px;
+  color: #555;
+  margin-top: 20px;
+}

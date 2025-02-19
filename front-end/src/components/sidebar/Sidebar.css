@@ -1,0 +1,83 @@
+/* Sidebar - Diseño general */
+.sidebar {
+  width: 250px;
+  height: 100vh;
+  background-color: #2a4d69;
+  color: white;
+  display: flex;
+  flex-direction: column;
+  padding: 20px;
+  position: fixed;
+  top: 0;
+  left: 0;
+  box-shadow: 4px 0 10px rgba(0, 0, 0, 0.2);
+}
+
+/* Título */
+.sidebar-title {
+  font-size: 22px;
+  font-weight: bold;
+  text-align: center;
+  margin-bottom: 20px;
+}
+
+/* Menú */
+.menu {
+  display: flex;
+  flex-direction: column;
+}
+
+.menu-item {
+  text-decoration: none;
+  color: white;
+  font-size: 16px;
+  padding: 12px;
+  border-radius: 8px;
+  transition: background 0.3s, transform 0.2s;
+}
+
+.menu-item:hover {
+  background: rgba(255, 255, 255, 0.2);
+  transform: translateX(5px);
+}
+
+.active {
+  background-color: #1e3a55;
+  font-weight: bold;
+}
+
+/* Botón de Cerrar Sesión */
+.logout-button {
+  margin-top: auto;
+  margin-bottom: 40px;
+  background-color: #ff4d4d;
+  color: white;
+  font-size: 16px;
+  padding: 10px;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: background 0.3s, transform 0.2s;
+}
+
+.logout-button:hover {
+  background-color: #cc0000;
+  transform: scale(1.05);
+}
+
+/* Responsivo */
+@media (max-width: 768px) {
+  .sidebar {
+    width: 200px;
+  }
+
+  .menu-item {
+    font-size: 14px;
+    padding: 10px;
+  }
+
+  .logout-button {
+    font-size: 14px;
+    padding: 10px;
+  }
+}

@@ -1,0 +1,28 @@
+/* Contenedor principal */
+.dashboard-container {
+    display: flex;
+    height: 100vh;
+    background-color: #f4f4f9; /* Fondo similar a otras vistas */
+  }
+  
+  /* Estilo para la sección de contenido */
+  .dashboard-content {
+    flex: 1;
+    padding: 30px;
+    margin-left: 300px; /* Espacio para la sidebar */
+    background: white;
+    border-radius: 12px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+    margin: 20px;
+  }
+  
+  /* Título de bienvenida */
+  .dashboard-content h1 {
+    font-size: 54px;
+    color: #2c3e50; /* Azul oscuro */
+    margin-bottom: 20px;
+    margin-left: 300px; /* Espacio para la sidebar */
+
+  }
+  
+  

@@ -1,0 +1,101 @@
+/* Contenedor principal */
+.evaluation-detail-container {
+  /* display: flex; */
+  /* min-height: 100vh; */
+  background-color: #f7f9fc;
+}
+
+/* Contenedor del contenido principal */
+.evaluation-content {
+    flex: 1;
+    padding: 40px;
+    margin-left: 250px; /* Para evitar que quede debajo de la sidebar */
+}
+
+/* Tarjeta de evaluación */
+.evaluation-card {
+  width: 100%;
+  max-width: 600px;
+  background: white;
+  padding: 30px;
+  margin-left: 50px;
+  border-radius: 12px;
+  box-shadow: 0px 6px 12px rgba(0, 0, 0, 0.1);
+}
+
+/* Título */
+.evaluation-title {
+  text-align: center;
+  font-size: 24px;
+  font-weight: bold;
+  color: #333;
+  margin-bottom: 20px;
+}
+
+/* Secciones de información */
+h2 {
+  font-size: 18px;
+  font-weight: bold;
+  color: #444;
+  margin-top: 15px;
+}
+
+p {
+  font-size: 16px;
+  color: #555;
+  margin: 5px 0;
+}
+
+/* Lista de feedback */
+.feedback-list {
+  list-style: none;
+  padding: 0;
+  margin: 10px 0;
+}
+
+.feedback-item {
+  padding: 10px;
+  background: #eef2f7;
+  border-radius: 8px;
+  margin-bottom: 8px;
+}
+
+/* Botones */
+.edit-button,
+.report-button {
+  display: block;
+  width: 100%;
+  padding: 10px;
+  font-size: 16px;
+  font-weight: bold;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: background 0.3s ease;
+  margin-top: 10px;
+}
+
+.edit-button {
+  background: #007bff;
+  color: white;
+}
+
+.edit-button:hover {
+  background: #0056b3;
+}
+
+.report-button {
+  background: #28a745;
+  color: white;
+}
+
+.report-button:hover {
+  background: #1e7e34;
+}
+
+/* Mensaje de carga */
+.loading-text {
+  text-align: center;
+  font-size: 16px;
+  color: #555;
+}

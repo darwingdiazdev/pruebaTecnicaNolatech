@@ -1,0 +1,108 @@
+/* Contenedor principal */
+.evaluation-edit-container {
+  display: flex;
+  min-height: 100vh;
+  background-color: #f7f9fc;
+}
+
+/* Contenedor del contenido principal */
+.evaluation-content {
+  flex: 1;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 20px;
+}
+
+/* Tarjeta de edición */
+.evaluation-edit-card {
+  width: 100%;
+  max-width: 600px;
+  background: white;
+  padding: 30px;
+  border-radius: 12px;
+  box-shadow: 0px 6px 12px rgba(0, 0, 0, 0.1);
+}
+
+/* Título */
+.evaluation-title {
+  text-align: center;
+  font-size: 24px;
+  font-weight: bold;
+  color: #333;
+  margin-bottom: 20px;
+}
+
+/* Formulario */
+.evaluation-form {
+  display: flex;
+  flex-direction: column;
+}
+
+.evaluation-form label {
+  font-size: 16px;
+  font-weight: bold;
+  margin: 10px 0 5px;
+  color: #444;
+}
+
+.evaluation-form input,
+.evaluation-form textarea {
+  width: 100%;
+  padding: 10px;
+  font-size: 16px;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  margin-bottom: 15px;
+}
+
+.evaluation-form textarea {
+  resize: vertical;
+  min-height: 80px;
+}
+
+/* Botones */
+.evaluation-button {
+  display: block;
+  width: 100%;
+  padding: 10px;
+  font-size: 16px;
+  font-weight: bold;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: background 0.3s ease;
+  margin-top: 10px;
+}
+
+.evaluation-button {
+  background: #007bff;
+  color: white;
+}
+
+.evaluation-button:hover {
+  background: #0056b3;
+}
+
+.feedback-button {
+  background: #28a745;
+}
+
+.feedback-button:hover {
+  background: #1e7e34;
+}
+
+/* Contenedor del formulario de feedback */
+.feedback-form-container {
+  margin-top: 20px;
+  padding: 15px;
+  background: #eef2f7;
+  border-radius: 8px;
+}
+
+/* Mensaje de carga y errores */
+.error-message {
+  text-align: center;
+  font-size: 16px;
+  color: #d9534f;
+}

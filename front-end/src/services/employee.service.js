@@ -2,9 +2,11 @@ import { apiUrl } from "../config/config";
 
 export const getEmployees = async () => {
   try {
+    const token = localStorage.getItem('token');
     const response = await fetch(`${apiUrl}/employees`, {
       method: "GET",
       headers: {
+        Authorization: `Bearer ${token}`,
         "Content-Type": "application/json",
       },
     });
@@ -15,7 +17,7 @@ export const getEmployees = async () => {
 
     return await response.json();
   } catch (error) {
-    console.error("❌ Error al obtener empleados:", error);
+    console.error("Error al obtener empleados:", error);
     throw error;
   }
 };

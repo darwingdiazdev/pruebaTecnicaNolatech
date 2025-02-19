@@ -1,14 +1,16 @@
 import { useState } from "react";
-import { useNavigate } from "react-router-dom"; //
-import { loginUser } from "../../services/user.service";
+import { useDispatch } from "react-redux";
+import { useNavigate, Link } from "react-router-dom"; 
+import { login } from "../../redux/authSlice";
+import "./Login.css"; // Importa los estilos
 
 export const Login = () => {
-
   const [formData, setFormData] = useState({
     username: "",
     password: "",
   });
-
+  const [error, setError] = useState(null);
+  const dispatch = useDispatch();
   const navigate = useNavigate();
 
   const handleChange = (e) => {
@@ -20,15 +22,32 @@ export const Login = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+  
     try {
-      const response = await loginUser(formData);
-      console.log("✅ Usuario autenticado:", response);
-      // Aquí podrías redirigir al usuario o guardar un token en localStorage
-      navigate("/home"); 
+      const response = await dispatch(login(formData)).unwrap();
+      console.log("Respuesta del backend:", response);
+  
+      if (response.token) {
+        localStorage.setItem("token", response.token);
+        localStorage.setItem("role", response.user.role); // Guarda el rol
+  
+        // Redirige según el rol
+        if (response.user.role === "Admin") {
+          navigate("/admin");
+        } else if (response.user.role === "Manager") {
+          navigate("/manager");
+        } else {
+          navigate("/employee");
+        }
+      } else {
+        setError("Error en el login. No se recibió el token.");
+      }
     } catch (error) {
-      console.error("❌ Error al iniciar sesión:", error);
+      setError(error.message || "Error en el login. Intenta nuevamente.");
     }
   };
+  
+  
 
   return (
     <div className="login-container">
@@ -54,8 +73,12 @@ export const Login = () => {
             required
           />
         </div>
+        {error && <p className="text-red-500">{error}</p>}
         <button type="submit">Ingresar</button>
       </form>
+      <Link to="/register">
+        <h6>Crear cuenta</h6>
+      </Link>
     </div>
   );
 };

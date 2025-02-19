@@ -5,8 +5,6 @@ export const Home = () => {
     return(
         <>
              <h1>🏢 Gestión de Empleados</h1>
-             <EmployeesList />
-             <EvaluationForm/>
         </>
     )
 }

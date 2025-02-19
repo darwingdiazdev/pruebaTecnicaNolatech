@@ -1,6 +1,8 @@
 import { useState, useEffect } from "react";
 import { createEvaluation } from "../../services/evaluation.service";
-import { getEmployees } from "../../services/employee.service"; // Obtener empleados
+import { getEmployees } from "../../services/employee.service";
+import Sidebar from "../sidebar/sidebar";
+import "./EvaluationForm.css"; // Importamos los estilos
 
 export const EvaluationForm = () => {
   const [formData, setFormData] = useState({
@@ -14,7 +16,6 @@ export const EvaluationForm = () => {
   const [loading, setLoading] = useState(false);
   const [errorMessage, setErrorMessage] = useState("");
 
-  // Cargar empleados al montar el componente
   useEffect(() => {
     const fetchEmployees = async () => {
       try {
@@ -42,32 +43,25 @@ export const EvaluationForm = () => {
 
     try {
       const response = await createEvaluation(formData);
-      console.log("✅ Evaluación creada:", response);
       alert("Evaluación registrada con éxito");
       setFormData({ employeeId: "", evaluator: "", score: "", comments: "" });
     } catch (error) {
-      console.error("❌ Error al registrar evaluación:", error);
-      setErrorMessage("❌ Ocurrió un error al registrar la evaluación.");
+      setErrorMessage("Ocurrió un error al registrar la evaluación.");
     } finally {
       setLoading(false);
     }
   };
 
   return (
-    <div>
-      <h2>Registrar Evaluación</h2>
+    <div className="evaluation-container">
+      <Sidebar />
+      <div className="evaluation-card">
+        <h2 className="evaluation-title">Nueva Evaluación</h2>
 
-      {errorMessage && <p style={{ color: "red" }}>{errorMessage}</p>}
+        {errorMessage && <p className="error-message">{errorMessage}</p>}
 
-      <form onSubmit={handleSubmit}>
-        <div>
-          <label>Empleado:</label>
-          <select
-            name="employeeId"
-            value={formData.employeeId}
-            onChange={handleChange}
-            required
-          >
+        <form onSubmit={handleSubmit} className="evaluation-form">
+          <select name="employeeId" value={formData.employeeId} onChange={handleChange} required>
             <option value="">Seleccione un empleado</option>
             {employees.map((employee) => (
               <option key={employee._id} value={employee._id}>
@@ -75,41 +69,39 @@ export const EvaluationForm = () => {
               </option>
             ))}
           </select>
-        </div>
-        <div>
-          <label>Evaluador:</label>
+
           <input
             type="text"
             name="evaluator"
+            placeholder="Nombre del evaluador"
             value={formData.evaluator}
             onChange={handleChange}
             required
           />
-        </div>
-        <div>
-          <label>Puntuación (1-10):</label>
+
           <input
             type="number"
             name="score"
+            placeholder="Puntuación (1-10)"
             value={formData.score}
             onChange={handleChange}
             min="1"
             max="10"
             required
           />
-        </div>
-        <div>
-          <label>Comentarios:</label>
+
           <textarea
             name="comments"
+            placeholder="Comentarios"
             value={formData.comments}
             onChange={handleChange}
           />
-        </div>
-        <button type="submit" disabled={loading}>
-          {loading ? "Guardando..." : "Guardar Evaluación"}
-        </button>
-      </form>
+
+          <button type="submit" disabled={loading}>
+            {loading ? "Guardando..." : "Guardar Evaluación"}
+          </button>
+        </form>
+      </div>
     </div>
   );
 };

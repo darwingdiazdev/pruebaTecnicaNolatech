@@ -1,15 +1,29 @@
 import { useState } from "react";
-import { registerUser } from "../../services/user.service";
+import { useDispatch, useSelector } from "react-redux";
+import { useNavigate } from "react-router-dom";
+import { register } from "../../redux/authSlice";
+import { FaUser, FaLock, FaUserTie, FaUsers } from "react-icons/fa";
+import "./Register.css";
+
+const roles = ["Admin", "Manager", "Employee"];
 
 export const Register = () => {
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
+  const { isLoading } = useSelector((state) => state.auth);
+
   const [form, setForm] = useState({
     username: "",
     password: "",
     firstName: "",
     lastName: "",
+    role: "",
   });
 
-  const [error, setError] = useState(null);
+  console.log("form", form);
+  
+
+  const [formError, setFormError] = useState(null);
 
   const handleChange = (e) => {
     setForm({ ...form, [e.target.name]: e.target.value });
@@ -17,29 +31,88 @@ export const Register = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    setError(null);
+    setFormError(null);
 
     try {
-      const response = await registerUser(form);
-      // Aquí puedes redirigir al usuario o mostrar un mensaje de éxito
+      await dispatch(register(form)).unwrap();
+      navigate("/login");
     } catch (error) {
-      setError("Error en el registro. Intenta nuevamente.");
+      setFormError(error.message || "Error en el registro. Intenta nuevamente.");
     }
   };
 
   return (
-    <div className="max-w-md mx-auto p-6 bg-white shadow-md rounded-lg">
-      <h2 className="text-xl font-bold mb-4">Registro de Usuario</h2>
-      {error && <p className="text-red-500">{error}</p>}
-      <form onSubmit={handleSubmit}>
-        <input type="text" name="username" placeholder="Nombre de usuario" value={form.username} onChange={handleChange} className="w-full p-2 border rounded mb-2" required />
-        <input type="password" name="password" placeholder="Contraseña" value={form.password} onChange={handleChange} className="w-full p-2 border rounded mb-2" required />
-        <input type="text" name="firstName" placeholder="Nombre" value={form.firstName} onChange={handleChange} className="w-full p-2 border rounded mb-2" required />
-        <input type="text" name="lastName" placeholder="Apellido" value={form.lastName} onChange={handleChange} className="w-full p-2 border rounded mb-2" required />
-        <button type="submit" className="w-full bg-blue-500 text-white p-2 rounded mt-2 hover:bg-blue-600">
-          Registrarse
-        </button>
-      </form>
+    <div className="register-container">
+      <div className="register-card">
+        <h2 className="register-title">Registro de Usuario</h2>
+        {formError && <p className="error-message">{formError}</p>}
+        <form onSubmit={handleSubmit} className="register-form">
+          
+          <div className="input-group">
+            <FaUser className="input-icon" />
+            <input
+              type="text"
+              name="username"
+              placeholder="Nombre de usuario"
+              value={form.username}
+              onChange={handleChange}
+              required
+            />
+          </div>
+
+          <div className="input-group">
+            <FaLock className="input-icon" />
+            <input
+              type="password"
+              name="password"
+              placeholder="Contraseña"
+              value={form.password}
+              onChange={handleChange}
+              required
+            />
+          </div>
+
+          <div className="input-group">
+            <FaUserTie className="input-icon" />
+            <input
+              type="text"
+              name="firstName"
+              placeholder="Nombre"
+              value={form.firstName}
+              onChange={handleChange}
+              required
+            />
+          </div>
+
+          <div className="input-group">
+            <FaUserTie className="input-icon" />
+            <input
+              type="text"
+              name="lastName"
+              placeholder="Apellido"
+              value={form.lastName}
+              onChange={handleChange}
+              required
+            />
+          </div>
+
+          <div className="input-group">
+            <FaUsers className="input-icon" />
+            <select name="role" value={form.role} onChange={handleChange} required>
+              <option value="">Seleccione un Rol</option>
+              {roles.map((rol) => (
+                <option key={rol} value={rol}>
+                  {rol}
+                </option>
+              ))}
+            </select>
+          </div>
+
+          <button type="submit" disabled={isLoading}>
+            {isLoading ? "Registrando..." : "Registrarse"}
+          </button>
+        </form>
+      </div>
     </div>
   );
 };

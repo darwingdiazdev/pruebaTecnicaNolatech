@@ -1,10 +1,13 @@
 import { useState } from "react";
+import { useNavigate } from "react-router-dom";
 import { sendFeedback } from "../../services/evaluation.service";
+import "./FeedbackForm.css"; // Importamos los estilos
 
 export const FeedbackForm = ({ evaluationId }) => {
+  const navigate = useNavigate(); // Hook para redireccionar
   const [formData, setFormData] = useState({
-    feedbackGiver: "",
-    comment: "",
+    feedbackProvider: "",  
+    comments: "",  
   });
 
   const [loading, setLoading] = useState(false);
@@ -21,47 +24,51 @@ export const FeedbackForm = ({ evaluationId }) => {
     e.preventDefault();
     setLoading(true);
     setErrorMessage("");
-
+  
     try {
-      const response = await sendFeedback({ evaluationId, ...formData });
-      console.log("✅ Feedback enviado:", response);
-      alert("Feedback registrado con éxito");
-      setFormData({ feedbackGiver: "", comment: "" });
+      await sendFeedback({ evaluationId, ...formData });
+      setFormData({ feedbackProvider: "", comments: "" });
+
+      // Redirigir a EvaluationDetail con la ID correcta
+      navigate(`/evaluation-list/${evaluationId}`);
     } catch (error) {
-      console.error("❌ Error al enviar feedback:", error);
-      setErrorMessage("❌ Ocurrió un error al enviar el feedback.");
+      setErrorMessage("Ocurrió un error al enviar el feedback.");
     } finally {
       setLoading(false);
     }
   };
 
   return (
-    <div>
-      <h2>Enviar Feedback</h2>
+    <div className="container">
+      <h2 className="feedback-title">Enviar Feedback</h2>
 
-      {errorMessage && <p style={{ color: "red" }}>{errorMessage}</p>}
+      {errorMessage && <p className="error-message">{errorMessage}</p>}
 
-      <form onSubmit={handleSubmit}>
-        <div>
-          <label>Quién da el Feedback:</label>
+      <form className="feedback-form" onSubmit={handleSubmit}>
+        <div className="form-group">
+          <label className="form-label">Quién da el Feedback:</label>
           <input
             type="text"
-            name="feedbackGiver"
-            value={formData.feedbackGiver}
+            name="feedbackProvider"
+            className="form-input"
+            value={formData.feedbackProvider}
             onChange={handleChange}
             required
           />
         </div>
-        <div>
-          <label>Comentario:</label>
+
+        <div className="form-group">
+          <label className="form-label">Comentario:</label>
           <textarea
-            name="comment"
-            value={formData.comment}
+            name="comments"
+            className="form-textarea"
+            value={formData.comments}
             onChange={handleChange}
             required
           />
         </div>
-        <button type="submit" disabled={loading}>
+
+        <button type="submit" className="feedback-button" disabled={loading}>
           {loading ? "Enviando..." : "Enviar Feedback"}
         </button>
       </form>

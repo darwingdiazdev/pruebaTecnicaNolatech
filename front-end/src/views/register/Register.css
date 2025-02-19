@@ -1,0 +1,83 @@
+/* Estilos generales */
+.register-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  background-color: #f7f9fc;
+}
+
+/* Tarjeta de formulario */
+.register-card {
+  background: #fff;
+  padding: 2rem;
+  border-radius: 12px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+  width: 100%;
+  max-width: 400px;
+  text-align: center;
+}
+
+/* Título */
+.register-title {
+  color: #2a4d69;
+  font-size: 24px;
+  font-weight: bold;
+  margin-bottom: 1rem;
+}
+
+/* Formulario */
+.register-form {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+/* Campos de entrada */
+.register-form input,
+.register-form select {
+  width: 100%;
+  padding: 10px;
+  border: 1px solid #d3d3d3;
+  border-radius: 8px;
+  font-size: 16px;
+  transition: 0.3s;
+}
+
+.register-form input:focus,
+.register-form select:focus {
+  border-color: #2a4d69;
+  outline: none;
+  box-shadow: 0 0 5px rgba(42, 77, 105, 0.3);
+}
+
+/* Botón */
+.register-form button {
+  background-color: #2a4d69;
+  color: white;
+  padding: 12px;
+  font-size: 16px;
+  font-weight: bold;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: background 0.3s;
+}
+
+.register-form button:hover {
+  background-color: #1e3a55;
+}
+
+/* Mensajes de error */
+.error-message {
+  color: red;
+  font-size: 14px;
+  margin-bottom: 10px;
+}
+
+/* Adaptación a móviles */
+@media (max-width: 480px) {
+  .register-card {
+    padding: 1.5rem;
+  }
+}

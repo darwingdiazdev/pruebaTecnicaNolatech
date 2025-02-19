@@ -6,6 +6,8 @@ import { FeedbackForm } from "../feedbackForm/feedbackForm";
 export const EmployeeEvaluations = () => {
   const { employeeId } = useParams();
   const [evaluations, setEvaluations] = useState([]);
+  console.log(evaluations);
+  
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
 

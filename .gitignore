@@ -1,10 +1,10 @@
 # Ignorar node_modules en frontend y backend
-frontend/node_modules/
-backend/node_modules/
+front-end/node_modules/
+back-end/node_modules/
 
 # Archivos de entorno
-frontend/.env
-backend/.env
+front-end/.env
+back-end/.env
 
 # Dependencias de compilación y logs
 dist/

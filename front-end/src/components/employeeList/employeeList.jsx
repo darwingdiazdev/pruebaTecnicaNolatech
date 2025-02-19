@@ -1,5 +1,7 @@
 import { useEffect, useState } from "react";
 import { getEmployees } from "../../services/employee.service";
+import Sidebar from "../sidebar/sidebar";
+import "./EmployeeList.css"; // Importa los estilos
 
 export const EmployeesList = () => {
   const [employees, setEmployees] = useState([]);
@@ -21,23 +23,26 @@ export const EmployeesList = () => {
     fetchEmployees();
   }, []);
 
-  if (loading) return <p>🔄 Cargando empleados...</p>;
-  if (error) return <p>❌ {error}</p>;
+  if (loading) return <p>Cargando empleados...</p>;
+  if (error) return <p>{error}</p>;
 
   return (
-    <div>
-      <h2>📋 Lista de Empleados</h2>
-      {employees.length === 0 ? (
-        <p>⚠️ No hay empleados registrados.</p>
-      ) : (
-        <ul>
-          {employees.map((employee) => (
-            <li key={employee.id}>
-              {employee.firstName} {employee.lastName} - {employee.position}
-            </li>
-          ))}
-        </ul>
-      )}
+    <div className="page-container">
+      <Sidebar />
+      <div className="content">
+        <h2>Lista de Empleados</h2>
+        {employees.length === 0 ? (
+          <p>No hay empleados registrados.</p>
+        ) : (
+          <ul>
+            {employees.map((employee) => (
+              <li key={employee.id}>
+                {employee.firstName} {employee.lastName} - {employee.position}
+              </li>
+            ))}
+          </ul>
+        )}
+      </div>
     </div>
   );
 };

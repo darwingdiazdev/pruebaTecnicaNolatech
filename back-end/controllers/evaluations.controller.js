@@ -1,20 +1,33 @@
 const express = require('express');
 const router = express.Router();
 const evaluationService = require('../services/evaluations.service');
+const { validateEvaluation } = require('../middlewares/validateRequest');
+const asyncHandler = require('../middlewares/asyncHandler')
+const path = require("path");
+const fs = require("fs"); 
+const authMiddleware = require('../middlewares/auth.middleware');
 
-const asyncHandler = fn => (req, res, next) =>
-    Promise.resolve(fn(req, res, next)).catch(next);
 
-router.post('/', asyncHandler(async (req, res) => {
+router.post('/', authMiddleware(["Admin", "Manager"]), validateEvaluation, asyncHandler(async (req, res) => {
     try {
-        console.log('📩 Datos recibidos para evaluación:', req.body);
-
-        const result = await evaluationService.create(req.body);
+        const result = await evaluationService.create(req.body, req);
         res.status(201).json(result);
     } catch (error) {
         res.status(400).json({ message: error.message });
     }
 }));
+
+router.get(
+  "/", 
+  asyncHandler(async (req, res) => {
+    try {
+      const evaluations = await evaluationService.getAll();
+      res.json(evaluations);
+    } catch (error) {
+      res.status(500).json({ message: "Error al obtener evaluaciones", error: error.message });
+    }
+  })
+);
 
 router.get(
     "/:id",
@@ -32,7 +45,7 @@ router.get(
 );
 
 router.put(
-    "/:id",
+    "/:id",  authMiddleware(["Admin", "Manager"]),
     asyncHandler(async (req, res) => {
       try {
         const updatedEvaluation = await evaluationService.update(req.params.id, req.body);
@@ -63,29 +76,15 @@ router.get(
 
 // Enviar feedback para una evaluación
 router.post(
-    "/feedback",
+    "/feedback",  authMiddleware(["Admin", "Manager"]),
     asyncHandler(async (req, res) => {
       try {
-        const { evaluationId, feedbackGiver, comment } = req.body;
-  
-        if (!evaluationId || !feedbackGiver || !comment) {
-          return res.status(400).json({ message: "Todos los campos son obligatorios" });
-        }
-  
-        const evaluation = await evaluationService.addFeedback(evaluationId, {
-          feedbackGiver,
-          comment,
-          date: new Date(),
-        });
-  
-        if (!evaluation) {
-          return res.status(404).json({ message: "Evaluación no encontrada" });
-        }
-  
-        res.status(201).json({ message: "Feedback agregado correctamente", evaluation });
-      } catch (error) {
-        res.status(500).json({ message: "Error al agregar feedback", error: error.message });
-      }
+        const { evaluationId, feedbackProvider, comments } = req.body;
+        const response = await evaluationService.addFeedback(evaluationId, { feedbackProvider, comments });
+        res.json(response);
+    } catch (error) {
+        res.status(500).json({ message: "Error al enviar feedback", error: error.message });
+    }
     })
   );
   
@@ -107,5 +106,36 @@ router.get(
       }
     })
   );
+  // Generar reporte de evaluación para un empleado en formato CSV
+  router.get(
+    "/reports/csv/employee/:id",
+    asyncHandler(async (req, res) => {
+        try {
+            const { id } = req.params;
+            const filePath = await evaluationService.generateEmployeeReportCSV(id);
+
+            if (!filePath) {
+                return res.status(404).json({ message: "No se encontraron evaluaciones para este empleado" });
+            }
+
+            res.download(filePath, `employee_report_${id}.csv`, (err) => {
+                if (err) {
+                    console.error("Error al enviar el archivo:", err);
+                    return res.status(500).json({ message: "Error al generar el reporte" });
+                }
+
+                // Opcional: eliminar el archivo después de la descarga
+                setTimeout(() => {
+                    fs.unlink(filePath, (unlinkErr) => {
+                        if (unlinkErr) console.error("Error al eliminar el archivo:", unlinkErr);
+                    });
+                }, 5000);
+            });
+        } catch (error) {
+            console.error("Error en la generación del reporte:", error);
+            res.status(500).json({ message: "Error al generar el reporte", error: error.message });
+        }
+    })
+);
   
 module.exports = router;

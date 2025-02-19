@@ -1,46 +1,38 @@
 const bcrypt = require('bcryptjs');
+const jwt = require("jsonwebtoken");
 const db = require('../_helpers/db');
 const User = db.User;
 
 const userService = {
+
     create: async (userParam) => {
-        const { username, password, firstName, lastName } = userParam;
-
-        if (!username || !password || !firstName || !lastName) {
-            throw new Error('⚠️ Todos los campos (username, password, firstName, lastName) son obligatorios');
-        }
-
-        // Verificar si el usuario ya existe
-        const existingUser = await User.findOne({ username });
+        const existingUser = await User.findOne({ username: userParam.username });
         if (existingUser) {
-            throw new Error(`⚠️ El usuario "${username}" ya está registrado`);
+            const error = new Error(`El usuario "${userParam.username}" ya está registrado`);
+            error.status = 400;
+            throw error;
         }
 
-        // Crear nuevo usuario con contraseña hasheada
         const user = new User({
-            username,
-            password: bcrypt.hashSync(password, 10), // Hashing seguro
-            firstName,
-            lastName
+            ...userParam,
+            password: bcrypt.hashSync(userParam.password, 10)
         });
 
         await user.save();
-        return { message: '✅ Usuario registrado con éxito' };
+        return { message: "Usuario registrado con éxito" };
     },
-
     authenticate: async ({ username, password }) => {
-        if (!username || !password) {
-            throw new Error('⚠️ Usuario y contraseña son requeridos');
-        }
-
-        // Buscar usuario en la base de datos
         const user = await User.findOne({ username });
         if (!user || !bcrypt.compareSync(password, user.password)) {
-            throw new Error('⚠️ Credenciales incorrectas');
+            const error = new Error("Credenciales incorrectas");
+            error.status = 401;
+            throw error;
         }
 
-        return { message: '✅ Login exitoso', user: user.toJSON() };
-    }
+        const token = jwt.sign({ id: user.id, name: user.firstName, role: user.role }, process.env.SECRET_KEY, { expiresIn: "1h" });
+
+        return { message: "Login exitoso", token, user: user.toJSON() };
+    },
 };
 
 module.exports = userService;

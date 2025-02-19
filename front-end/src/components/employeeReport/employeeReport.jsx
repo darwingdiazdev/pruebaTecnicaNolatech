@@ -1,6 +1,8 @@
 import { useState, useEffect } from "react";
 import { useParams } from "react-router-dom";
-import { getEmployeeReport } from "../../services/evaluation.service";
+import { downloadReport, getEmployeeReport } from "../../services/evaluation.service";
+import Sidebar from "../sidebar/sidebar";
+import "./EmployeeReport.css";
 
 export const EmployeeReport = () => {
   const { employeeId } = useParams();
@@ -25,22 +27,27 @@ export const EmployeeReport = () => {
 
   if (loading) return <p>Cargando reporte...</p>;
   if (error) return <p style={{ color: "red" }}>{error}</p>;
-
+  
   return (
-    <div>
-      <h2>Reporte de Evaluación</h2>
-      <p><strong>Total de Evaluaciones:</strong> {report.totalEvaluations}</p>
-      <p><strong>Puntuación Promedio:</strong> {report.averageScore}</p>
-
-      <h3>Detalles de Evaluaciones</h3>
-      {report.evaluations.map((evaluation) => (
-        <div key={evaluation._id}>
-          <p><strong>Evaluador:</strong> {evaluation.evaluator}</p>
-          <p><strong>Puntuación:</strong> {evaluation.score}</p>
-          <p><strong>Comentarios:</strong> {evaluation.comments}</p>
-          <hr />
-        </div>
-      ))}
+    <div className="employee-report-container">
+      <Sidebar />
+      <div className="report-content">
+        <h2>Reporte de Evaluación</h2>
+        <p><strong>Total de Evaluaciones:</strong> {report.totalEvaluations}</p>
+        <p><strong>Puntuación Promedio:</strong> {report.averageScore}</p>
+  
+        <h3>Detalles de Evaluaciones</h3>
+        {report.evaluations.map((evaluation) => (
+          <div key={evaluation._id} className="evaluation-card">
+            <p><strong>Evaluador:</strong> {evaluation.evaluator}</p>
+            <p><strong>Puntuación:</strong> {evaluation.score}</p>
+            <p><strong>Comentarios:</strong> {evaluation.comments}</p>
+            <hr />
+          </div>
+        ))}
+        <button className="button-csv" onClick={() => downloadReport(employeeId)}>Descargar CSV</button>
+      </div>
     </div>
   );
+  
 };

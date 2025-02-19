@@ -1,0 +1,94 @@
+/* Contenedor principal */
+.evaluation-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  min-height: 100vh;
+  background-color: #f7f9fc;
+}
+
+/* Tarjeta del formulario */
+.evaluation-card {
+  width: 100%;
+  max-width: 700px;
+  height: 100%;
+  padding: 0px;
+  background: white;
+  border-radius: 12px;
+  box-shadow: 0px 6px 12px rgba(0, 0, 0, 0.1);
+}
+
+
+
+/* Título */
+.evaluation-title {
+  font-size: 22px;
+  color: #2a4d69;
+  text-align: center;
+  margin-bottom: 20px;
+}
+
+/* Mensaje de error */
+.error-message {
+  color: red;
+  font-weight: bold;
+  text-align: center;
+}
+
+/* Formulario */
+.evaluation-form {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+}
+
+/* Inputs y textarea */
+.evaluation-form input,
+.evaluation-form select,
+.evaluation-form textarea {
+  width: 100%;
+  padding: 12px;
+  border: 1px solid #d3d3d3;
+  border-radius: 8px;
+  font-size: 16px;
+  transition: border 0.3s ease;
+}
+
+/* Efecto focus */
+.evaluation-form input:focus,
+.evaluation-form select:focus,
+.evaluation-form textarea:focus {
+  border-color: #2a4d69;
+  outline: none;
+}
+
+/* Botón de guardar */
+.evaluation-form button {
+  background: #2a4d69;
+  color: white;
+  padding: 12px;
+  font-size: 16px;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: background 0.3s ease;
+}
+
+/* Efecto hover en botón */
+.evaluation-form button:hover {
+  background: #1e374d;
+}
+
+/* Botón deshabilitado */
+.evaluation-form button:disabled {
+  background: #b0b0b0;
+  cursor: not-allowed;
+}
+
+/* Responsivo para móviles */
+@media (max-width: 768px) {
+  .evaluation-card {
+    width: 90%;
+    padding: 20px;
+  }
+}
